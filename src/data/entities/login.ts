@@ -1,7 +1,7 @@
 import { LoginType } from './login-type'
 
 export interface Login {
-  id: number
+  id?: number
   email: string
   name: string
   password: string

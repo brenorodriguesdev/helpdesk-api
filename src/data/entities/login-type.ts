@@ -1,4 +1,4 @@
 export interface LoginType {
-  id: number
-  nome: string
+  id?: number
+  name: string
 }
