@@ -1,4 +1,5 @@
 export interface SendMessageModel {
   idLoginSend: number
-  message: string
+  idTicket: number
+  body: string
 }
