@@ -4,7 +4,8 @@ import {
   createTicketParamsSchema,
   suportTicketParamsSchema,
   finishTicketParamsSchema,
-  sendMessageParamsSchema
+  sendMessageParamsSchema,
+  receiveMessagesParamsSchema
 } from './schemas/'
 
 export default {
@@ -13,5 +14,6 @@ export default {
   createTicketParams: createTicketParamsSchema,
   suportTicketParams: suportTicketParamsSchema,
   finishTicketParams: finishTicketParamsSchema,
-  sendMessageParams: sendMessageParamsSchema
+  sendMessageParams: sendMessageParamsSchema,
+  receiveMessagesParams: receiveMessagesParamsSchema
 }
