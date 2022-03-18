@@ -12,9 +12,9 @@ export class LoginRepositoryPG implements LoginRepository {
     if (!login) {
       return null
     }
-    const type = await database.oneOrNone('select * from loginType where id = $1', [login.idLoginType])
+    const type = await database.oneOrNone('select * from loginType where id = $1', [login.idlogintype])
     const loginModel = { ...login, type }
-    delete loginModel.idLoginType
+    delete loginModel.idlogintype
     return loginModel
   }
 
@@ -23,9 +23,9 @@ export class LoginRepositoryPG implements LoginRepository {
     if (!login) {
       return null
     }
-    const type = await database.oneOrNone('select * from loginType where id = $1', [login.idLoginType])
+    const type = await database.oneOrNone('select * from loginType where id = $1', [login.idlogintype])
     const loginModel = { ...login, type }
-    delete loginModel.idLoginType
+    delete loginModel.idlogintype
     return loginModel
   }
 }

@@ -11,7 +11,7 @@ export class VerifyLoginService implements VerifyLoginUseCase {
     if (!object) {
       return new Error('Esse token não é válido!')
     }
-    const login = await this.loginRepository.findByEmail(object.id)
+    const login = await this.loginRepository.findById(object.id)
     if (!login) {
       return new Error('Esse usuário não existe!')
     }

@@ -1,5 +1,8 @@
 export const createTicketPath = {
   post: {
+    security: [{
+      bearerAuth: []
+    }],
     tags: ['Ticket'],
     summary: 'API para criar ticket',
     requestBody: {
