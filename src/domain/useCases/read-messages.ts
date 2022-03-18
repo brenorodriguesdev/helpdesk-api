@@ -1,5 +1,5 @@
-import { ReceiveMessagesModel } from '../models/receive-messages'
+import { ReadMessagesModel } from '../models/read-messages'
 
 export interface ReadMessagesUseCase {
-  read: (data: ReceiveMessagesModel) => Promise<void>
+  read: (data: ReadMessagesModel) => Promise<void | Error>
 }
