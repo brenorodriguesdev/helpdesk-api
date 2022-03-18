@@ -14,6 +14,7 @@ export class SuportTicketService implements SuportTicketUseCase {
     if (!ticket) {
       return new Error('Esse ticket não existe!')
     }
+    ticket.loginSuport = loginSuport
     ticket.updateAt = new Date()
     ticket.ticketStatus.id = 2
     ticket.ticketStatus.name = 'IN SUPORT'

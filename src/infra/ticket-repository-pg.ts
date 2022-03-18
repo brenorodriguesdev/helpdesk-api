@@ -13,6 +13,8 @@ export class TicketRepositoryPG implements TicketRepository {
     const idTicketStatus = ticketTable.idticketstatus
     const ticketStatus = await database.oneOrNone('select * from ticketstatus where id = $1', [idTicketStatus])
     const ticketModel = { ...ticketTable, loginClient, ticketStatus }
+    ticketModel.createAt = ticketTable.createat
+    ticketModel.updateAt = ticketTable.updateat
     delete ticketModel.idloginclient
     delete ticketModel.idticketstatus
     return ticketModel
@@ -23,13 +25,28 @@ export class TicketRepositoryPG implements TicketRepository {
     if (!ticketTable) {
       return null
     }
+    let loginClient
+    let loginSuport
     const idLoginClient = ticketTable.idloginclient
-    const loginClient = await database.oneOrNone('select * from login where id = $1', [idLoginClient])
+    const loginClientTable = await database.oneOrNone('select * from login where id = $1', [idLoginClient])
+
+    if (loginClientTable) {
+      const loginClientType = await database.oneOrNone('select * from loginType where id = $1', [loginClientTable.idlogintype])
+      delete loginClientTable.idlogintype
+      loginClient = { ...loginClientTable, type: loginClientType }
+    }
     const idLoginSuport = ticketTable.idloginsuport
-    const loginSuport = await database.oneOrNone('select * from login where id = $1', [idLoginSuport])
+    const loginSuportTable = await database.oneOrNone('select * from login where id = $1', [idLoginSuport])
+    if (loginSuportTable) {
+      const loginSuportType = await database.oneOrNone('select * from loginType where id = $1', [loginSuportTable.idlogintype])
+      delete loginSuportTable.idlogintype
+      loginSuport = { ...loginSuportTable, type: loginSuportType }
+    }
     const idTicketStatus = ticketTable.idticketstatus
     const ticketStatus = await database.oneOrNone('select * from ticketstatus where id = $1', [idTicketStatus])
     const ticketModel = { ...ticketTable, loginClient, loginSuport, ticketStatus }
+    ticketModel.createAt = ticketTable.createat
+    ticketModel.updateAt = ticketTable.updateat
     delete ticketModel.idloginclient
     delete ticketModel.idloginsuport
     delete ticketModel.idticketstatus

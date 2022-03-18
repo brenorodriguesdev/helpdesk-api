@@ -22,6 +22,7 @@ export class SuportTicketController implements Controller {
       }
       return noContent()
     } catch (error) {
+      console.log(error.message)
       return serverError()
     }
   }
