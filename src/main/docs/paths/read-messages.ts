@@ -1,5 +1,5 @@
 export const readMessagesPath = {
-  patch: {
+  put: {
     security: [{
       bearerAuth: []
     }],
