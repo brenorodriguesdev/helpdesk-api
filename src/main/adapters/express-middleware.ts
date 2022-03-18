@@ -5,7 +5,8 @@ import { HttpRequest } from '../../presentation/contracts/http'
 export const adaptMiddleware = (middleware: Controller) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const httpRequest: HttpRequest = {
-      headers: req.headers
+      headers: req.headers,
+      body: req.body
     }
 
     const httpResponse = await middleware.handle(httpRequest)
