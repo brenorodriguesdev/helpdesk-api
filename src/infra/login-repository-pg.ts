@@ -4,7 +4,7 @@ import { database } from '../main/config/database'
 
 export class LoginRepositoryPG implements LoginRepository {
   async create (login: Login): Promise<void> {
-    await database.one('insert into login (email, name, password, company, idLoginType) values ($1, $2, $3, $4, $5)', [login.email, login.name, login.password, login.company, login.type.id])
+    await database.none('insert into login (email, name, password, company, idLoginType) values ($1, $2, $3, $4, $5)', [login.email, login.name, login.password, login.company, login.type.id])
   }
 
   async findByEmail (email: string): Promise<Login> {
