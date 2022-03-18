@@ -4,7 +4,7 @@ import { database } from '../main/config/database'
 
 export class TicketRepositoryPG implements TicketRepository {
   async create (ticket: Ticket): Promise<Ticket> {
-    const ticketTable = await database.oneOrNone('insert into login (subject, createat, updateat, idloginclient, idticketstatus) values ($1, $2, $3, $4, $5) returning *', [ticket.subject, ticket.createAt, ticket.updateAt, ticket.loginClient.id, ticket.ticketStatus.id])
+    const ticketTable = await database.oneOrNone('insert into ticket (subject, createat, updateat, idloginclient, idticketstatus) values ($1, $2, $3, $4, $5) returning *', [ticket.subject, ticket.createAt, ticket.updateAt, ticket.loginClient.id, ticket.ticketStatus.id])
     if (!ticketTable) {
       return null
     }
