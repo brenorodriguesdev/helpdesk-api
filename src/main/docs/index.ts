@@ -13,6 +13,9 @@ export default {
   tags: [{
     name: 'Login',
     description: 'APIs de Login'
+  }, {
+    name: 'Ticket',
+    description: 'APIs de Ticket'
   }],
   paths,
   schemas,

@@ -1,9 +1,11 @@
 import {
   signInParamsSchema,
-  signUpParamsSchema
+  signUpParamsSchema,
+  createTicketParamsSchema
 } from './schemas/'
 
 export default {
   signInParams: signInParamsSchema,
-  signUpParams: signUpParamsSchema
+  signUpParams: signUpParamsSchema,
+  createTicketParams: createTicketParamsSchema
 }
