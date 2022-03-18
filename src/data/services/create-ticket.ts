@@ -36,7 +36,7 @@ export class CreateTicketService implements CreateTicketUseCase {
 
     const send: MessageStatus = {
       id: 2,
-      name: 'SEND'
+      name: 'SENT'
     }
     const message: Message = {
       body,
