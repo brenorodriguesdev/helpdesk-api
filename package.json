@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jsonwebtoken": "^8.5.8",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "eslint": "^7.32.0",
     "eslint-config-standard-with-typescript": "^21.0.1",
@@ -21,5 +22,8 @@
     "lint-staged": "^12.3.6",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
   }
 }
