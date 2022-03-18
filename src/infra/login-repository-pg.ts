@@ -17,4 +17,15 @@ export class LoginRepositoryPG implements LoginRepository {
     delete loginModel.idLoginType
     return loginModel
   }
+
+  async findById (id: number): Promise<Login> {
+    const login = await database.oneOrNone('select * from login where id = $1', [id])
+    if (!login) {
+      return null
+    }
+    const type = await database.oneOrNone('select * from loginType where id = $1', [login.idLoginType])
+    const loginModel = { ...login, type }
+    delete loginModel.idLoginType
+    return loginModel
+  }
 }
