@@ -7,7 +7,8 @@ export class VerifyLoginMiddleware implements Middleware {
   constructor (private readonly verifyLoginUseCase: VerifyLoginUseCase) { }
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const { accessToken } = httpRequest.body
+      const { authorization } = httpRequest.headers
+      const [, accessToken] = authorization ? authorization.split('Bearer ') : ''
       const login = await this.verifyLoginUseCase.verify(accessToken)
       if (login instanceof Error) {
         return unauthorized(login)
