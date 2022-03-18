@@ -5,7 +5,8 @@ import {
   suportTicketPath,
   finishTicketPath,
   sendMessagePath,
-  receiveMessagesPath
+  receiveMessagesPath,
+  readMessagesPath
 } from './paths/'
 
 export default {
@@ -15,5 +16,6 @@ export default {
   '/suport-ticket': suportTicketPath,
   '/finish-ticket': finishTicketPath,
   '/send-message': sendMessagePath,
-  '/receive-messages': receiveMessagesPath
+  '/receive-messages': receiveMessagesPath,
+  '/read-messages': readMessagesPath
 }
