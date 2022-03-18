@@ -1,11 +1,12 @@
 import pgPromise from 'pg-promise'
+import * as dotenv from 'dotenv'
 
+dotenv.config()
 const pgp = pgPromise({/* Initialization Options */ })
-
 export const database = pgp({
-  user: process.env.USER_DB,
-  password: process.env.PASSWORD_DB,
-  host: process.env.HOST_DB,
-  port: Number(process.env.PORT_DB),
-  database: process.env.DB
+  user: String(process.env.DB_USER),
+  password: String(process.env.DB_PASSWORD),
+  host: String(process.env.DB_HOST),
+  port: Number(process.env.DB_PORT),
+  database: String(process.env.DB)
 })
