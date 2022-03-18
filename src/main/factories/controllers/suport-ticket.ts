@@ -4,7 +4,7 @@ import { TicketRepositoryPG } from '../../../infra/ticket-repository-pg'
 import { SuportTicketController } from '../../../presentation/controllers/suport-ticket'
 import { makeSuportTicketValidator } from '../validators/suport-ticket'
 
-export const makeCreateTicketController = (): SuportTicketController => {
+export const makeSuportTicketController = (): SuportTicketController => {
   const loginRepositoryPG = new LoginRepositoryPG()
   const ticketRepositoryPG = new TicketRepositoryPG()
   const suportTicketService = new SuportTicketService(loginRepositoryPG, ticketRepositoryPG)
