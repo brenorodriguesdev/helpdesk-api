@@ -10,7 +10,7 @@ export const finishTicketPath = {
       content: {
         'application/json': {
           schema: {
-            $ref: '#/schemas/finishicketParams'
+            $ref: '#/schemas/finishTicketParams'
           }
         }
       }
