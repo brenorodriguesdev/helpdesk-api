@@ -21,6 +21,10 @@ export class SendMessageService implements SendMessageUseCase {
       return new Error('Esse ticket não existe!')
     }
 
+    if (ticket.ticketStatus.id !== 2) {
+      return new Error('Só é possível enviar mensagens para ticket em suporte!')
+    }
+
     const messageSent: MessageStatus = {
       id: 2,
       name: 'SENT'
