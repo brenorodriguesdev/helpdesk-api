@@ -3,7 +3,8 @@ import {
   signUpPath,
   createTicketPath,
   suportTicketPath,
-  finishTicketPath
+  finishTicketPath,
+  sendMessagePath
 } from './paths/'
 
 export default {
@@ -11,5 +12,6 @@ export default {
   '/sign-up': signUpPath,
   '/create-ticket': createTicketPath,
   '/suport-ticket': suportTicketPath,
-  '/finish-ticket': finishTicketPath
+  '/finish-ticket': finishTicketPath,
+  '/send-message': sendMessagePath
 }

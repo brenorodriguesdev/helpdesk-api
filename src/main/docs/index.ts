@@ -16,6 +16,10 @@ export default {
   }, {
     name: 'Ticket',
     description: 'APIs de Ticket'
+  },
+  {
+    name: 'Message',
+    description: 'APIs de Mensagens'
   }],
   paths,
   schemas,
