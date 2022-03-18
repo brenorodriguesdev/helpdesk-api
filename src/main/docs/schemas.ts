@@ -6,7 +6,8 @@ import {
   finishTicketParamsSchema,
   sendMessageParamsSchema,
   receiveMessagesParamsSchema,
-  readMessagesParamsSchema
+  readMessagesParamsSchema,
+  delegateTicketParamsSchema
 } from './schemas/'
 
 export default {
@@ -17,5 +18,6 @@ export default {
   finishTicketParams: finishTicketParamsSchema,
   sendMessageParams: sendMessageParamsSchema,
   receiveMessagesParams: receiveMessagesParamsSchema,
-  readMessagesParams: readMessagesParamsSchema
+  readMessagesParams: readMessagesParamsSchema,
+  delegateTicketParams: delegateTicketParamsSchema
 }
