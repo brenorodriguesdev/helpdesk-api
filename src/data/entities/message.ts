@@ -1,3 +1,4 @@
+import { Login } from './login'
 import { MessageStatus } from './message-status'
 import { Ticket } from './ticket'
 
@@ -6,5 +7,6 @@ export interface Message {
   body: string
   createAt: Date
   ticket: Ticket
+  loginSend: Login
   messageStatus: MessageStatus
 }
