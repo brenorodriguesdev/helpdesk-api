@@ -1,4 +1,4 @@
-import { CreateTicketModel } from '../../domain/models/create-ticket'
+import { CreateTicketModel } from '../../create-ticket'
 import { CreateTicketUseCase } from '../../domain/useCases/create-ticket'
 import { LoginRepository } from '../contracts/login-repository'
 import { MessageRepository } from '../contracts/message-repository'
