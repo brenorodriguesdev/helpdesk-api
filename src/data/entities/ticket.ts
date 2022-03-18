@@ -7,6 +7,6 @@ export interface Ticket {
   createAt: Date
   updateAt: Date
   loginClient: Login
-  loginSuport: Login
+  loginSuport?: Login
   ticketStatus: TicketStatus
 }
