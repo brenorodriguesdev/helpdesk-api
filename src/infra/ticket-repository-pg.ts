@@ -1,4 +1,5 @@
 import { TicketRepository } from '../data/contracts/ticket-repository'
+import { Login } from '../data/entities/login'
 import { Ticket } from '../data/entities/ticket'
 import { database } from '../main/config/database'
 
@@ -55,5 +56,289 @@ export class TicketRepositoryPG implements TicketRepository {
 
   async update (ticket: Ticket): Promise<void> {
     await database.none('update ticket set subject = $1, createat = $2, updateat = $3, idloginclient = $4, idloginsuport = $5, idticketstatus = $6 where id = $7', [ticket.subject, ticket.createAt, ticket.updateAt, ticket.loginClient.id, ticket.loginSuport.id, ticket.ticketStatus.id, ticket.id])
+  }
+
+  async getAllByLoginClient (idLoginClient: any): Promise<Ticket[]> {
+    const ticketsTable = await database.manyOrNone(`
+    select
+    ticket.id as id,
+    ticket.subject as subject,
+    ticket.createat as createAt,
+    ticket.updateat as updateAt,
+    
+    loginClient.id as loginClientId,
+    loginClient.email as loginClientEmail,
+    loginClient.name as loginClientName,
+    loginClient.password as loginClientPassword,
+    loginClient.company as loginClientCompany,
+    loginTypeClient.id as loginTypeClientId,
+    loginTypeClient.name as loginTypeClientName
+    ticket.idloginsuport,
+
+    ticketStatus.id as ticketStatusId,
+    ticketStatus.name as ticketStatusName
+    
+    from ticket ticket, 
+    login loginClient, 
+    loginType loginTypeClient,
+    ticketStatus ticketStatus
+
+    where 
+    ticket.idloginclient = loginClient.id 
+    and loginClient.idlogintype = loginTypeClient.id
+    and ticket.idloginclient = $1
+    and ticketStatus.id = ticket.idticketstatus
+    `, [idLoginClient])
+
+    const ticketsEntities = await Promise.all(ticketsTable.map(async (ticketTable: any) => {
+      const adaptLogin = (loginTable: any): Login => ({
+        id: loginTable.id,
+        email: loginTable.email,
+        name: loginTable.name,
+        password: loginTable.password,
+        company: loginTable.company,
+        type: {
+          id: loginTable.idlogintype,
+          name: loginTable.namelogintype
+        }
+      })
+
+      const loginSuport: Login = ticketTable.idloginsuport
+        ? adaptLogin(await database.oneOrNone(
+        `select
+        login.id as id,
+        login.email as email,
+        login.name as name,
+        login.password as password
+        login.company as company
+        logintype.id as idlogintype
+        logintype.name as namelogintype
+        from 
+        login login, 
+        loginType 
+        loginType 
+        where 
+        login.id = $1 
+        and loginType.id = login.idlogintype`))
+        : null
+
+      const ticketEntity: Ticket = {
+        id: ticketTable.id,
+        subject: ticketTable.subject,
+        createAt: ticketTable.createat,
+        updateAt: ticketTable.updateat,
+        loginClient: {
+          id: ticketTable.loginclientid,
+          email: ticketTable.loginclientemail,
+          name: ticketTable.loginclientname,
+          password: ticketTable.loginclientpassword,
+          company: ticketTable.loginclientcompany,
+          type: {
+            id: ticketTable.logintypeclientid,
+            name: ticketTable.logintypeclientname
+          }
+
+        },
+        loginSuport,
+        ticketStatus: {
+          id: ticketTable.ticketStatusId,
+          name: ticketTable.ticketStatusName
+        }
+      }
+
+      return ticketEntity
+    }))
+
+    return ticketsEntities
+  }
+
+  async getAllByLoginSuport (idLoginSuport: any): Promise<Ticket[]> {
+    const ticketsTable = await database.manyOrNone(`
+    select
+    ticket.id as id,
+    ticket.subject as subject,
+    ticket.createat as createAt,
+    ticket.updateat as updateAt,
+    
+    loginClient.id as loginClientId,
+    loginClient.email as loginClientEmail,
+    loginClient.name as loginClientName,
+    loginClient.password as loginClientPassword,
+    loginClient.company as loginClientCompany,
+    loginTypeClient.id as loginTypeClientId,
+    loginTypeClient.name as loginTypeClientName
+    ticket.idloginsuport,
+
+    ticketStatus.id as ticketStatusId,
+    ticketStatus.name as ticketStatusName
+    
+    from ticket ticket, 
+    login loginClient, 
+    loginType loginTypeClient,
+    ticketStatus ticketStatus
+
+
+    where 
+    ticket.idloginclient = loginClient.id 
+    and loginClient.idlogintype = loginTypeClient.id
+    and ticketStatus.id = ticket.idticketstatus
+    and ticket.idloginsuport = $1
+    `, [idLoginSuport])
+
+    const ticketsEntities = await Promise.all(ticketsTable.map(async (ticketTable: any) => {
+      const adaptLogin = (loginTable: any): Login => ({
+        id: loginTable.id,
+        email: loginTable.email,
+        name: loginTable.name,
+        password: loginTable.password,
+        company: loginTable.company,
+        type: {
+          id: loginTable.idlogintype,
+          name: loginTable.namelogintype
+        }
+      })
+
+      const loginSuport: Login = ticketTable.idloginsuport
+        ? adaptLogin(await database.oneOrNone(
+        `select
+        login.id as id,
+        login.email as email,
+        login.name as name,
+        login.password as password
+        login.company as company
+        logintype.id as idlogintype
+        logintype.name as namelogintype
+        from 
+        login login, 
+        loginType 
+        loginType 
+        where 
+        login.id = $1 
+        and loginType.id = login.idlogintype`))
+        : null
+
+      const ticketEntity: Ticket = {
+        id: ticketTable.id,
+        subject: ticketTable.subject,
+        createAt: ticketTable.createat,
+        updateAt: ticketTable.updateat,
+        loginClient: {
+          id: ticketTable.loginclientid,
+          email: ticketTable.loginclientemail,
+          name: ticketTable.loginclientname,
+          password: ticketTable.loginclientpassword,
+          company: ticketTable.loginclientcompany,
+          type: {
+            id: ticketTable.logintypeclientid,
+            name: ticketTable.logintypeclientname
+          }
+
+        },
+        loginSuport,
+        ticketStatus: {
+          id: ticketTable.ticketStatusId,
+          name: ticketTable.ticketStatusName
+        }
+      }
+
+      return ticketEntity
+    }))
+
+    return ticketsEntities
+  }
+
+  async getAllByTicketStatus (idTicketStatus: any): Promise<Ticket[]> {
+    const ticketsTable = await database.manyOrNone(`
+    select
+    ticket.id as id,
+    ticket.subject as subject,
+    ticket.createat as createAt,
+    ticket.updateat as updateAt,
+    
+    loginClient.id as loginClientId,
+    loginClient.email as loginClientEmail,
+    loginClient.name as loginClientName,
+    loginClient.password as loginClientPassword,
+    loginClient.company as loginClientCompany,
+    loginTypeClient.id as loginTypeClientId,
+    loginTypeClient.name as loginTypeClientName
+    ticket.idloginsuport,
+
+    ticketStatus.id as ticketStatusId,
+    ticketStatus.name as ticketStatusName
+    
+    from ticket ticket, 
+    login loginClient, 
+    loginType loginTypeClient,
+    ticketStatus ticketStatus
+
+    
+    where 
+    ticket.idloginclient = loginClient.id 
+    and loginClient.idlogintype = loginTypeClient.id
+    and ticketStatus.id = ticket.idticketstatus
+    and ticket.idticketstatus = $1
+    `, [idTicketStatus])
+
+    const ticketsEntities = await Promise.all(ticketsTable.map(async (ticketTable: any) => {
+      const adaptLogin = (loginTable: any): Login => ({
+        id: loginTable.id,
+        email: loginTable.email,
+        name: loginTable.name,
+        password: loginTable.password,
+        company: loginTable.company,
+        type: {
+          id: loginTable.idlogintype,
+          name: loginTable.namelogintype
+        }
+      })
+
+      const loginSuport: Login = ticketTable.idloginsuport
+        ? adaptLogin(await database.oneOrNone(
+        `select
+        login.id as id,
+        login.email as email,
+        login.name as name,
+        login.password as password
+        login.company as company
+        logintype.id as idlogintype
+        logintype.name as namelogintype
+        from 
+        login login, 
+        loginType 
+        loginType 
+        where 
+        login.id = $1 
+        and loginType.id = login.idlogintype`))
+        : null
+
+      const ticketEntity: Ticket = {
+        id: ticketTable.id,
+        subject: ticketTable.subject,
+        createAt: ticketTable.createat,
+        updateAt: ticketTable.updateat,
+        loginClient: {
+          id: ticketTable.loginclientid,
+          email: ticketTable.loginclientemail,
+          name: ticketTable.loginclientname,
+          password: ticketTable.loginclientpassword,
+          company: ticketTable.loginclientcompany,
+          type: {
+            id: ticketTable.logintypeclientid,
+            name: ticketTable.logintypeclientname
+          }
+
+        },
+        loginSuport,
+        ticketStatus: {
+          id: ticketTable.ticketStatusId,
+          name: ticketTable.ticketStatusName
+        }
+      }
+
+      return ticketEntity
+    }))
+
+    return ticketsEntities
   }
 }
