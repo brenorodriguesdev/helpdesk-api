@@ -16,6 +16,9 @@ export class GetMessagesByTicketService implements GetMessagesByTicketUseCase {
       return new Error('Esse ticket não existe!')
     }
     const login = await this.loginRepository.findById(idLogin)
+    if (!login) {
+      return new Error('Esse login não existe!')
+    }
     const client = 1
     const isLoginClient = login.type.id === client
     if (isLoginClient && ticket.loginClient.id !== idLogin) {
