@@ -8,7 +8,7 @@ export const setupSocket = (httpServer: HTTPServer): Server => {
   io.on('connection', (socket: Socket) => {
     readdirSync(`${__dirname}/../sockets`).map(async file => {
       if (!file.endsWith('.map')) {
-        (await import(`../sockets/${file}`)).default(io, socket)
+        (await import(`../sockets/${file}`)).default(socket)
       }
     })
   })
