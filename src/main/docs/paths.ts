@@ -8,7 +8,8 @@ import {
   receiveMessagesPath,
   readMessagesPath,
   delegateTicketPath,
-  getTicketsByClientPath
+  getTicketsByClientPath,
+  getTicketsBySuportPath
 } from './paths/'
 
 export default {
@@ -21,5 +22,6 @@ export default {
   '/receive-messages': receiveMessagesPath,
   '/read-messages': readMessagesPath,
   '/delegate-ticket': delegateTicketPath,
-  '/get-tickets-by-client': getTicketsByClientPath
+  '/get-tickets-by-client': getTicketsByClientPath,
+  '/get-tickets-by-suport': getTicketsBySuportPath
 }
