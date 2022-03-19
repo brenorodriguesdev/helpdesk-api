@@ -1,3 +1,5 @@
+import { OnConnectModel } from '../models/on-connect'
+
 export interface OnConnectUseCase {
-  connect: (idLogin: number) => Promise<void>
+  connect: (data: OnConnectModel) => Promise<void>
 }
