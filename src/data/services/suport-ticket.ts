@@ -1,5 +1,5 @@
 import { SuportTicketModel } from '../../domain/models/suport-ticket'
-import { SuportTicketUseCase } from '../../domain/useCases/suport-ticker'
+import { SuportTicketUseCase } from '../../domain/useCases/suport-ticket'
 import { LoginRepository } from '../contracts/login-repository'
 import { TicketRepository } from '../contracts/ticket-repository'
 

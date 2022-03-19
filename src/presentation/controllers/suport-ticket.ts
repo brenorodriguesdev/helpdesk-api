@@ -1,4 +1,4 @@
-import { SuportTicketUseCase } from '../../domain/useCases/suport-ticker'
+import { SuportTicketUseCase } from '../../domain/useCases/suport-ticket'
 import { Validator } from '../../validation/contracts/validator'
 import { Controller } from '../contracts/controller'
 import { HttpRequest, HttpResponse } from '../contracts/http'
