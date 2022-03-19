@@ -1,4 +1,4 @@
 export interface OnConnectModel {
   idLogin: number
-  idConnection: number
+  idConnection: string
 }

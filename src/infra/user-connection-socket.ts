@@ -1,0 +1,27 @@
+import { UserConnection } from '../data/contracts/user-connection'
+import { winSockServer } from '../main/config/app'
+
+export interface User {
+  idSocket: string
+  idLogin: number
+}
+
+let usersConnection: User[] = []
+
+export class UserConnectionSocket implements UserConnection {
+  async connect (idLogin: number, idConnection: string): Promise<void> {
+    usersConnection.push({
+      idLogin,
+      idSocket: idConnection
+    })
+  }
+
+  async disconnect (idLogin: number): Promise<void> {
+    usersConnection = usersConnection.filter(userConnection => userConnection.idLogin !== idLogin)
+  }
+
+  async sendPacket (idLogin: number, namePacket: string, packet: any): Promise<void> {
+    const userConnection = usersConnection.find(userConnection => userConnection.idLogin === idLogin)
+    winSockServer.to(userConnection.idSocket).emit(namePacket, packet)
+  }
+}

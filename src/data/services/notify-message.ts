@@ -5,6 +5,6 @@ import { UserConnection } from '../contracts/user-connection'
 export class NotifyMessageService implements NotifyMessageUseCase {
   constructor (private readonly userConnection: UserConnection) {}
   async notify ({ idLogin, message }: NotifyMessageModel): Promise<void> {
-    await this.userConnection.sendPacket(idLogin, message)
+    await this.userConnection.sendPacket(idLogin, 'notifyMessage', message)
   }
 }
