@@ -16,8 +16,8 @@ export class UserConnectionSocket implements UserConnection {
     })
   }
 
-  async disconnect (idLogin: number): Promise<void> {
-    usersConnection = usersConnection.filter(userConnection => userConnection.idLogin !== idLogin)
+  async disconnect (idConnection: string): Promise<void> {
+    usersConnection = usersConnection.filter(userConnection => userConnection.idSocket !== idConnection)
   }
 
   async sendPacket (idLogin: number, namePacket: string, packet: any): Promise<void> {

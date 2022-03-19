@@ -1,3 +1,3 @@
 export interface OnDisconnectUseCase {
-  disconnect: (idLogin: number) => Promise<void>
+  disconnect: (idConnection: string) => Promise<void>
 }
