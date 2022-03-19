@@ -1,4 +1,5 @@
 import { SendMessageModel } from '../../domain/models/send-message'
+import { NotifyMessageUseCase } from '../../domain/useCases/notify-message'
 import { SendMessageUseCase } from '../../domain/useCases/send-message'
 import { LoginRepository } from '../contracts/login-repository'
 import { MessageRepository } from '../contracts/message-repository'
@@ -9,7 +10,8 @@ import { MessageStatus } from '../entities/message-status'
 export class SendMessageService implements SendMessageUseCase {
   constructor (private readonly loginRepository: LoginRepository,
     private readonly ticketRepository: TicketRepository,
-    private readonly messageRepository: MessageRepository) {}
+    private readonly messageRepository: MessageRepository,
+    private readonly notifyMessageUseCase: NotifyMessageUseCase) {}
 
   async send ({ idLoginSend, idTicket, body }: SendMessageModel): Promise<void | Error> {
     const loginSend = await this.loginRepository.findById(idLoginSend)
@@ -38,5 +40,12 @@ export class SendMessageService implements SendMessageUseCase {
     }
 
     await this.messageRepository.create(message)
+
+    const idLoginRecv = ticket.loginClient.id === loginSend.id ? ticket.loginSuport.id : ticket.loginClient.id
+
+    await this.notifyMessageUseCase.notify({
+      idLogin: idLoginRecv,
+      message
+    })
   }
 }
