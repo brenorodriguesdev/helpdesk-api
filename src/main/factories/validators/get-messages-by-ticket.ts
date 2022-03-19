@@ -3,7 +3,7 @@ import { CompositeValidator } from '../../../validation/validators/composite'
 import { RequiredFieldValidator } from '../../../validation/validators/required-field'
 
 export const makeGetMessagesByTicketValidator = (): Validator => {
-  const requiredFields = ['login', 'idTicket']
+  const requiredFields = ['login']
   const validators = []
   for (const requiredField of requiredFields) {
     validators.push(new RequiredFieldValidator(requiredField))
