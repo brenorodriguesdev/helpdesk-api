@@ -12,10 +12,10 @@ export class GetMessagesByTicketController implements Controller {
       if (error) {
         return badRequest(error)
       }
-      const { login, idTicket } = httpRequest.body
+      const { login } = httpRequest.body
       const messages = await this.getMessagesByTicketUseCase.get({
         idLogin: login.id,
-        idTicket
+        idTicket: httpRequest.params.idTicket
       })
       return ok(messages)
     } catch (error) {
