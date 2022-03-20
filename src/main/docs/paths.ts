@@ -27,5 +27,5 @@ export default {
   '/get-tickets-by-client': getTicketsByClientPath,
   '/get-tickets-by-suport': getTicketsBySuportPath,
   '/get-tickets-in-queue': getTicketsInQueuePath,
-  '/get-messages-by-ticket': getMessagesByTicketPath
+  '/get-messages-by-ticket/{idTicket}': getMessagesByTicketPath
 }
