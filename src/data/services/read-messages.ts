@@ -22,9 +22,14 @@ export class ReadMessagesService implements ReadMessagesUseCase {
     }
     const messageStatusReceive = 3
     const messageStatusRead = 4
-    const messagesRead = await this.messageRepository.getByTicketAndNotLogin(messageStatusReceive, loginRead.id)
+    let messagesRead = await this.messageRepository.getByTicketAndNotLogin(messageStatusReceive, loginRead.id)
     await this.messageRepository.updateStatusByTicketAndNotLogin(messageStatusReceive, loginRead.id, messageStatusRead)
     const idLogin = loginRead.id === ticket.loginClient.id ? ticket.loginSuport.id : ticket.loginClient.id
+    messagesRead = messagesRead.map(message => {
+      message.messageStatus.id = messageStatusRead
+      message.messageStatus.name = 'READ'
+      return message
+    })
     for (const messageRead of messagesRead) {
       await this.notifyMessage.notify({
         idLogin,

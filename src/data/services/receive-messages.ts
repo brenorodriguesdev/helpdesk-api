@@ -22,9 +22,14 @@ export class ReceiveMessagesService implements ReceiveMessagesUseCase {
     }
     const messageStatusSent = 2
     const messageStatusReceive = 3
-    const messagesReceive = await this.messageRepository.getByTicketAndNotLogin(messageStatusSent, loginReceive.id)
+    let messagesReceive = await this.messageRepository.getByTicketAndNotLogin(messageStatusSent, loginReceive.id)
     await this.messageRepository.updateStatusByTicketAndNotLogin(messageStatusSent, loginReceive.id, messageStatusReceive)
     const idLogin = loginReceive.id === ticket.loginClient.id ? ticket.loginSuport.id : ticket.loginClient.id
+    messagesReceive = messagesReceive.map(message => {
+      message.messageStatus.id = messageStatusReceive
+      message.messageStatus.name = 'RECEIVE'
+      return message
+    })
     for (const messageReceive of messagesReceive) {
       await this.notifyMessage.notify({
         idLogin,
