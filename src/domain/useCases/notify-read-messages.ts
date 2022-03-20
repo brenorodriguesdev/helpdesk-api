@@ -1,5 +1,5 @@
-import { NotifyMessageModel } from '../models/notify-message'
+import { NotifyReadMessagesModel } from '../models/notify-read-messages'
 
 export interface NotifyReadMessagesUseCase {
-  notify: (notify: NotifyMessageModel) => Promise<void>
+  notify: (notify: NotifyReadMessagesModel) => Promise<void>
 }
