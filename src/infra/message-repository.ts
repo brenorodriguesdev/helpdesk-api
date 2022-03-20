@@ -98,7 +98,7 @@ export class MessageRepositoryPG implements MessageRepository {
       const loginClientTable = await database.oneOrNone('select * from login where id = $1', [ticketTable.idloginclient])
       const loginClientTypeTable = await database.oneOrNone('select * from loginType where id = $1', [loginClientTable.idlogintype])
       const loginSuportTable = await database.oneOrNone('select * from login where id = $1', [ticketTable.idloginsuport])
-      const loginSuportTypeTable = await database.oneOrNone('select * from loginType where id = $1', [loginSuportTable.idlogintype])
+      const loginSuportTypeTable = await database.oneOrNone('select * from loginType where id = $1', [loginSuportTable?.idlogintype])
       const ticketStatusTable = await database.oneOrNone('select * from ticketStatus where id = $1', [ticketTable.idticketstatus])
       const messageStatusTable = await database.oneOrNone('select * from messagestatus where id = $1', [messageTable.idmessagestatus])
 
