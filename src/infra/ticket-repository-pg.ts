@@ -72,7 +72,7 @@ export class TicketRepositoryPG implements TicketRepository {
     loginClient.password as loginClientPassword,
     loginClient.company as loginClientCompany,
     loginTypeClient.id as loginTypeClientId,
-    loginTypeClient.name as loginTypeClientName
+    loginTypeClient.name as loginTypeClientName,
     ticket.idloginsuport,
 
     ticketStatus.id as ticketStatusId,
@@ -105,21 +105,20 @@ export class TicketRepositoryPG implements TicketRepository {
 
       const loginSuport: Login = ticketTable.idloginsuport
         ? adaptLogin(await database.oneOrNone(
-        `select
-        login.id as id,
-        login.email as email,
-        login.name as name,
-        login.password as password
-        login.company as company
-        logintype.id as idlogintype
-        logintype.name as namelogintype
-        from 
-        login login, 
-        loginType 
-        loginType 
-        where 
-        login.id = $1 
-        and loginType.id = login.idlogintype`))
+      `select
+      login.id as id,
+      login.email as email,
+      login.name as name,
+      login.password as password,
+      login.company as company,
+      logintype.id as idlogintype,
+      logintype.name as namelogintype
+      from 
+      login login, 
+      loginType loginType 
+      where 
+      login.id = $1 
+      and loginType.id = login.idlogintype`, [ticketTable.idloginsuport]))
         : null
 
       const ticketEntity: Ticket = {
@@ -153,7 +152,7 @@ export class TicketRepositoryPG implements TicketRepository {
   }
 
   async getAllByLoginSuport (idLoginSuport: any): Promise<Ticket[]> {
-    const ticketsTable = await database.manyOrNone(`
+    let ticketsTable = await database.manyOrNone(`
     select
     ticket.id as id,
     ticket.subject as subject,
@@ -166,7 +165,7 @@ export class TicketRepositoryPG implements TicketRepository {
     loginClient.password as loginClientPassword,
     loginClient.company as loginClientCompany,
     loginTypeClient.id as loginTypeClientId,
-    loginTypeClient.name as loginTypeClientName
+    loginTypeClient.name as loginTypeClientName,
     ticket.idloginsuport,
 
     ticketStatus.id as ticketStatusId,
@@ -177,13 +176,13 @@ export class TicketRepositoryPG implements TicketRepository {
     loginType loginTypeClient,
     ticketStatus ticketStatus
 
-
     where 
     ticket.idloginclient = loginClient.id 
     and loginClient.idlogintype = loginTypeClient.id
-    and ticketStatus.id = ticket.idticketstatus
     and ticket.idloginsuport = $1
+    and ticketStatus.id = ticket.idticketstatus
     `, [idLoginSuport])
+    ticketsTable = ticketsTable.filter(ticketTable => ticketTable.idloginsuport)
 
     const ticketsEntities = await Promise.all(ticketsTable.map(async (ticketTable: any) => {
       const adaptLogin = (loginTable: any): Login => ({
@@ -204,17 +203,16 @@ export class TicketRepositoryPG implements TicketRepository {
         login.id as id,
         login.email as email,
         login.name as name,
-        login.password as password
-        login.company as company
-        logintype.id as idlogintype
+        login.password as password,
+        login.company as company,
+        logintype.id as idlogintype,
         logintype.name as namelogintype
         from 
         login login, 
-        loginType 
-        loginType 
+        loginType loginType 
         where 
         login.id = $1 
-        and loginType.id = login.idlogintype`))
+        and loginType.id = login.idlogintype`, [ticketTable.idloginsuport]))
         : null
 
       const ticketEntity: Ticket = {
@@ -261,7 +259,7 @@ export class TicketRepositoryPG implements TicketRepository {
     loginClient.password as loginClientPassword,
     loginClient.company as loginClientCompany,
     loginTypeClient.id as loginTypeClientId,
-    loginTypeClient.name as loginTypeClientName
+    loginTypeClient.name as loginTypeClientName,
     ticket.idloginsuport,
 
     ticketStatus.id as ticketStatusId,
