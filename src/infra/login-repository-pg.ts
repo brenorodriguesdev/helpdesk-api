@@ -29,8 +29,8 @@ export class LoginRepositoryPG implements LoginRepository {
     return loginModel
   }
 
-  async getByType (idLoginType: number): Promise<Login[]> {
-    const loginsTable = await database.oneOrNone(`select
+  async getAllByType (idLoginType: number): Promise<Login[]> {
+    const loginsTable = await database.manyOrNone(`select
     login.id as id,
     login.email as email,
     login.name as name,

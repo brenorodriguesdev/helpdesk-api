@@ -22,6 +22,9 @@ export class UserConnectionSocket implements UserConnection {
 
   async sendPacket (idLogin: number, namePacket: string, packet: any): Promise<void> {
     const userConnection = usersConnection.find(userConnection => userConnection.idLogin === idLogin)
+    if (!userConnection) {
+      return
+    }
     winSockServer.to(userConnection.idSocket).emit(namePacket, packet)
   }
 }

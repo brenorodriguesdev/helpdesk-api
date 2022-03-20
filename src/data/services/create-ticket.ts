@@ -51,7 +51,7 @@ export class CreateTicketService implements CreateTicketUseCase {
     await this.messageRepository.create(message)
 
     const loginTypeSuport = 2
-    const loginsSuport = await this.loginRepository.getByType(loginTypeSuport)
+    const loginsSuport = await this.loginRepository.getAllByType(loginTypeSuport)
 
     for (const loginSuport of loginsSuport) {
       await this.notifyNewTicketUseCase.notify({
