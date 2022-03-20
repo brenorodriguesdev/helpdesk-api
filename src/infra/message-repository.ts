@@ -19,11 +19,11 @@ export class MessageRepositoryPG implements MessageRepository {
   async getByTicketAndNotLogin (idMessageStatus: number, idLoginReceive: number): Promise<Message[]> {
     const messagesTable = await database.manyOrNone('select * from message where idmessagestatus = $1 and idloginsend <> $2', [idMessageStatus, idLoginReceive])
     const messages = await Promise.all(messagesTable.map(async messageTable => {
-      const ticketTable = await database.oneOrNone('select * from ticket where id = $1', [messageTable.idTicket])
+      const ticketTable = await database.oneOrNone('select * from ticket where id = $1', [messageTable.idticket])
       const loginClientTable = await database.oneOrNone('select * from login where id = $1', [ticketTable.idloginclient])
-      const loginClientTypeTable = await database.oneOrNone('select * from loginType where id = $1', [ticketTable.idloginclient])
+      const loginClientTypeTable = await database.oneOrNone('select * from loginType where id = $1', [loginClientTable.idlogintype])
       const loginSuportTable = await database.oneOrNone('select * from login where id = $1', [ticketTable.idloginsuport])
-      const loginSuportTypeTable = await database.oneOrNone('select * from loginType where id = $1', [ticketTable.idloginclient])
+      const loginSuportTypeTable = await database.oneOrNone('select * from loginType where id = $1', [loginSuportTable?.idlogintype])
       const ticketStatusTable = await database.oneOrNone('select * from ticketStatus where id = $1', [ticketTable.idticketstatus])
       const messageStatusTable = await database.oneOrNone('select * from messagestatus where id = $1', [messageTable.idmessagestatus])
 

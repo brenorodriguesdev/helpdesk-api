@@ -20,10 +20,10 @@ export class ReadMessagesService implements ReadMessagesUseCase {
     if (!loginRead) {
       return new Error('Esse login não existe!')
     }
-    const messageStatusSent = 2
+    const messageStatusReceive = 3
     const messageStatusRead = 4
-    const messagesRead = await this.messageRepository.getByTicketAndNotLogin(messageStatusSent, loginRead.id)
-    await this.messageRepository.updateStatusByTicketAndNotLogin(messageStatusSent, loginRead.id, messageStatusRead)
+    const messagesRead = await this.messageRepository.getByTicketAndNotLogin(messageStatusReceive, loginRead.id)
+    await this.messageRepository.updateStatusByTicketAndNotLogin(messageStatusReceive, loginRead.id, messageStatusRead)
     const idLogin = loginRead.id === ticket.loginClient.id ? ticket.loginSuport.id : ticket.loginClient.id
     for (const messageRead of messagesRead) {
       await this.notifyMessage.notify({
