@@ -28,4 +28,35 @@ export class LoginRepositoryPG implements LoginRepository {
     delete loginModel.idlogintype
     return loginModel
   }
+
+  async getByType (idLoginType: number): Promise<Login[]> {
+    const loginsTable = await database.oneOrNone(`select
+    login.id as id,
+    login.email as email,
+    login.name as name,
+    login.password as password,
+    login.company as company,
+    logintype.id as idlogintype,
+    logintype.name as namelogintype
+    from 
+    login login, 
+    loginType loginType 
+    where 
+    login.idlogintype = 2
+    and loginType.id = login.idlogintype`, [idLoginType])
+    return loginsTable.map(loginTable => {
+      const login: Login = {
+        id: loginTable.id,
+        email: loginTable.email,
+        name: loginTable.name,
+        password: loginTable.password,
+        company: loginTable.company,
+        type: {
+          id: loginTable.idloginType,
+          name: loginTable.tablenamelogintype
+        }
+      }
+      return login
+    })
+  }
 }
