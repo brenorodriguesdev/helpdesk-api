@@ -1,4 +1,4 @@
-import { NotifyMessageService } from '../../../data/services/notify-message'
+import { NotifyReceiveMessagesService } from '../../../data/services/notify-receive-messages'
 import { ReceiveMessagesService } from '../../../data/services/receive-messages'
 import { LoginRepositoryPG } from '../../../infra/login-repository-pg'
 import { MessageRepositoryPG } from '../../../infra/message-repository'
@@ -12,7 +12,7 @@ export const makeReceiveMessagesController = (): ReceiveMessagesController => {
   const ticketRepositoryPG = new TicketRepositoryPG()
   const messageRepositoryPG = new MessageRepositoryPG()
   const userConnectionSocket = new UserConnectionSocket()
-  const notifyMessageService = new NotifyMessageService(userConnectionSocket)
-  const receiveMessagesService = new ReceiveMessagesService(ticketRepositoryPG, loginRepositoryPG, messageRepositoryPG, notifyMessageService)
+  const notifyReceiveMessagesService = new NotifyReceiveMessagesService(userConnectionSocket)
+  const receiveMessagesService = new ReceiveMessagesService(ticketRepositoryPG, loginRepositoryPG, messageRepositoryPG, notifyReceiveMessagesService)
   return new ReceiveMessagesController(makeReceiveMessagesValidator(), receiveMessagesService)
 }
