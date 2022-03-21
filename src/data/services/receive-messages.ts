@@ -1,5 +1,5 @@
 import { ReceiveMessagesModel } from '../../domain/models/receive-messages'
-import { NotifyMessageUseCase } from '../../domain/useCases/notify-message'
+import { NotifyReceiveMessagesUseCase } from '../../domain/useCases/notify-receive-messages'
 import { ReceiveMessagesUseCase } from '../../domain/useCases/receive-messages'
 import { LoginRepository } from '../contracts/login-repository'
 import { MessageRepository } from '../contracts/message-repository'
@@ -9,7 +9,7 @@ export class ReceiveMessagesService implements ReceiveMessagesUseCase {
   constructor (private readonly ticketRepository: TicketRepository,
     private readonly loginRepository: LoginRepository,
     private readonly messageRepository: MessageRepository,
-    private readonly notifyMessage: NotifyMessageUseCase) {}
+    private readonly notifyReceiveMessagesUseCase: NotifyReceiveMessagesUseCase) {}
 
   async receive ({ idLoginReceive, idTicket }: ReceiveMessagesModel): Promise<void | Error> {
     const ticket = await this.ticketRepository.findById(idTicket)
@@ -30,11 +30,9 @@ export class ReceiveMessagesService implements ReceiveMessagesUseCase {
       message.messageStatus.name = 'RECEIVE'
       return message
     })
-    for (const messageReceive of messagesReceive) {
-      await this.notifyMessage.notify({
-        idLogin,
-        message: messageReceive
-      })
-    }
+    await this.notifyReceiveMessagesUseCase.notify({
+      idLogin,
+      messages: messagesReceive
+    })
   }
 }
