@@ -1,5 +1,5 @@
 import { ReadMessagesModel } from '../../domain/models/read-messages'
-import { NotifyMessageUseCase } from '../../domain/useCases/notify-message'
+import { NotifyReadMessagesUseCase } from '../../domain/useCases/notify-read-messages'
 import { ReadMessagesUseCase } from '../../domain/useCases/read-messages'
 import { LoginRepository } from '../contracts/login-repository'
 import { MessageRepository } from '../contracts/message-repository'
@@ -9,7 +9,7 @@ export class ReadMessagesService implements ReadMessagesUseCase {
   constructor (private readonly ticketRepository: TicketRepository,
     private readonly loginRepository: LoginRepository,
     private readonly messageRepository: MessageRepository,
-    private readonly notifyMessage: NotifyMessageUseCase) {}
+    private readonly rotifyReadMessagesUseCase: NotifyReadMessagesUseCase) {}
 
   async read ({ idTicket, idLoginRead }: ReadMessagesModel): Promise<void | Error> {
     const ticket = await this.ticketRepository.findById(idTicket)
@@ -30,11 +30,9 @@ export class ReadMessagesService implements ReadMessagesUseCase {
       message.messageStatus.name = 'READ'
       return message
     })
-    for (const messageRead of messagesRead) {
-      await this.notifyMessage.notify({
-        idLogin,
-        message: messageRead
-      })
-    }
+    await this.rotifyReadMessagesUseCase.notify({
+      idLogin,
+      messages: messagesRead
+    })
   }
 }
