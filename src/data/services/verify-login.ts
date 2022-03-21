@@ -6,7 +6,7 @@ export class VerifyLoginService implements VerifyLoginUseCase {
   constructor (private readonly loginRepository: LoginRepository,
     private readonly decrypter: Decrypter) {}
 
-  async verify (token: string): Promise<object | Error> {
+  async verify (token: string): Promise<any | Error> {
     const object = await this.decrypter.decrypt(token)
     if (!object) {
       return new Error('Esse token não é válido!')
